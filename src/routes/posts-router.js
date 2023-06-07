@@ -28,3 +28,40 @@ router.post(
       sendResponse(res, undefined, 201);
     })
   );
+
+
+//Ver detalles del post buscado por id
+
+  router.get(
+    "/posts/:id",
+    handleAsyncError(async (req, res) => {
+      const post = await viewPostDetail(req.params.id);
+      sendResponse(res, post);
+    })
+  );
+
+
+//Borrar recomendacion (post) a través del id
+
+  router.delete(
+    "/posts/:id",
+    authGuard,
+    handleAsyncError(async (req, res) => {
+      await removePost(req.params.id, req.currentUser.id);
+      sendResponse(res);
+    })
+  );
+
+
+
+//Dar like a un comentario
+
+router.post(
+    "/posts/:id/like",
+    authGuard,
+    handleAsyncError(async (req, res) => {
+      //Hacer toggle del like en el post con id req.params.id
+      await toggleLike(req.params.id, req.currentUser.id);
+      sendResponse(res);
+    })
+);
