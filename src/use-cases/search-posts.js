@@ -11,7 +11,7 @@ module.exports = async ({ search }) => {
 };
 
 
-//Preguntar al profesor de que manera es la correcta para hacer los search
+//Preguntar al profesor de que manera es la correcta para hacer los search.
 
 module.exports = async ({ category, searchTerm }) => {
   const posts = await dbService.searchByCategoryAndTerm(category, searchTerm);
