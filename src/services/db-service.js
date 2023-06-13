@@ -3,8 +3,48 @@ const { getConnection } = require("../database/mysql-connection.js");
 const db = getConnection();
 
 module.exports = {
-    //cambiar tittle y descripcion al nombre correspondeinte de nuestra base de datos
+    // Insertar usuario.
+    async saveUser(user) {
+        const statement = `
+            INSERT INTO users(id, name, email, password)
+            VALUES(?, ?, ?, ?)
+        `;
 
+        await db.execute(statement, [
+            user.id,
+            user.name,
+            user.email,
+            user.password,
+        ]);
+    },
+
+    // Obtener los datos de un usuario por email.
+    async getUserByEmail(email) {
+        const statement = `
+            SELECT *
+            FROM users
+            WHERE users.email = ?
+        `;
+
+        const [rows] = await db.execute(statement, [email]);
+
+        return rows[0];
+    },
+
+    // Obtener los datos de un usuario por id.
+    async getUserById(id) {
+        const statement = `
+            SELECT name, email, createdAt
+            FROM users
+            WHERE users.id = ?
+        `;
+
+        const [rows] = await db.execute(statement, [id]);
+
+        return rows[0];
+    },
+
+    // Cambiar tittle y descripcion al nombre correspondeinte de nuestra base de datos
     async searchByTerm(searchTerm) {
         const likeTerm = `%${searchTerm}%`;
         const statement = `
@@ -43,21 +83,4 @@ module.exports = {
         const [rows] = await db.execute(statement, [likeCategory, likeTerm]);
         return rows;
     },
-
-    //Para crear un comentario y guardarlo (esta parte es opcional)
-
-    /*
-async saveComment(postComment) {
-  const statement = `
-  INSERT INTO post_comments(id,userId,postId,comment)
-  VALUES(?,?,?,?)
-  `;
-  await db.execute(statement, [
-    postComment.id,
-    postComment.userId,
-    postComment.postId,
-    postComment.comment,
-  ]);
-},
-*/
 };

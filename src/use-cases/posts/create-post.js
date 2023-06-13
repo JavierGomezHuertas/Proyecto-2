@@ -1,5 +1,5 @@
-const { generateUUID } = require("../services/crypto-service.js");
-const { savePost } = require("../services/db-service.js");
+const { generateUUID } = require("../../services/crypto-service.js");
+const { savePost } = require("../../services/db-service.js");
 
 module.exports = async (currentUserId, postPayload) => {
   const newPost = {
