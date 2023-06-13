@@ -1,4 +1,4 @@
-const dbService = require("../services/db-service.js");
+const dbService = require("../../services/db-service.js");
 
 module.exports = async ({ search }) => {
   const posts = await dbService.searchByTerm(search);

@@ -8,9 +8,6 @@ const cors = require("cors");
 
 const app = express();
 const PORT = 8000;
-app.listen(PORT, () => {
-    console.log("Server iniciado en el puerto " + PORT);
-});
 
 app.use(
     cors({
@@ -37,4 +34,8 @@ app.use((req, res, next) => {
         code: "UNKNOWN_ENDPOINT",
         message: `Endpoint desconocido: ${req.method} ${req.path}`,
     });
+});
+
+app.listen(PORT, () => {
+    console.log("Server iniciado en el puerto " + PORT);
 });

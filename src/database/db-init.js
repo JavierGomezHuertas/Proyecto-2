@@ -2,7 +2,7 @@ require("dotenv").config();
 const cryptoService = require("../services/crypto-service.js");
 const { createPool } = require("./mysql-connection.js");
 const { faker } = require("@faker-js/faker");
-const sendError = require('../utils/send-error.js');
+const sendError = require("../utils/send-error.js");
 
 const DATABASE_NAME = process.env.MYSQL_DATABASE;
 
@@ -25,35 +25,40 @@ const initDB = async () => {
 
 async function createDatabaseTables(pool) {
     await pool.query(`
-    CREATE TABLE users(
-        id CHAR(36) PRIMARY KEY,
-        name VARCHAR(150) NOT NULL,
-        email VARCHAR(150) NOT NULL UNIQUE,
-        createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        password VARCHAR(150) NOT NULL
-    )`);
+        CREATE TABLE users(
+            id CHAR(36) PRIMARY KEY,
+            name VARCHAR(150) NOT NULL,
+            email VARCHAR(150) NOT NULL UNIQUE,
+            createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            password VARCHAR(150) NOT NULL
+        )
+    `);
+
     await pool.query(`
-    CREATE TABLE posts(
-        id CHAR(36) PRIMARY KEY,
-        title VARCHAR(150) NOT NULL,
-        description TEXT NOT NULL,
-        userId CHAR(36) NOT NULL,
-        createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        place VARCHAR (50) NOT NULL,
-        photo VARCHAR (100),
-        subject VARCHAR (100),
-        category ENUM ("rural","gastronomico", "naturaleza") NOT NULL,  
-        FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
-    )`);
+        CREATE TABLE posts(
+            id CHAR(36) PRIMARY KEY,
+            title VARCHAR(150) NOT NULL,
+            description TEXT NOT NULL,
+            userId CHAR(36) NOT NULL,
+            createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            place VARCHAR (50) NOT NULL,
+            photo VARCHAR (100),
+            lead VARCHAR (100),
+            category ENUM ("rural","gastronomico", "naturaleza") NOT NULL,  
+            FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
+        )
+    `);
+
     await pool.query(`
-    CREATE TABLE post_likes(
-        id CHAR(36) PRIMARY KEY,
-        userId CHAR(36) NOT NULL,
-        postId CHAR(36) NOT NULL,
-        createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE,
-        FOREIGN KEY (postId) REFERENCES posts(id) ON DELETE CASCADE
-    )`);
+        CREATE TABLE post_likes(
+            id CHAR(36) PRIMARY KEY,
+            userId CHAR(36) NOT NULL,
+            postId CHAR(36) NOT NULL,
+            createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE,
+            FOREIGN KEY (postId) REFERENCES posts(id) ON DELETE CASCADE
+        )
+    `);
 }
 
 async function generateFakeData(pool) {

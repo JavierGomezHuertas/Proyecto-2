@@ -3,7 +3,7 @@ const {
   getCommentsByPostId,
   countLikesByPostId,
   getPhotosByPostId,
-} = require("../services/db-service.js");
+} = require("../../services/db-service.js");
 
 module.exports = async (postId) => {
   const post = await getPostById(postId);
