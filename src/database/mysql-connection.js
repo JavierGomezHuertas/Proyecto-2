@@ -8,7 +8,7 @@ function createPool(database) {
     // connectionLimit: 15,
     host: MYSQL_HOST,
     user: MYSQL_USER,
-    database: database, //travel_journal || undefined
+    database: database,
     password: MYSQL_PASSWORD,
   });
 }

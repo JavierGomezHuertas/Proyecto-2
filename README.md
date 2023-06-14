@@ -20,19 +20,19 @@ Aplicación que permite gestionar un portal donde los usuarios puedan publicar r
 
 -   **`users:`** id, name, email, password, createdAt.
     ​
--   **`posts:`** id, title, place, description, lead, category, photo, userId, createdAt.
+-   **`posts:`** id, title, place, description, lead(subget), category, photo, userId, createdAt.
     ​
 -   **`post_likes:`** id, userId, postId, createdAt.
 
 ## Endpoints de los usuarios
 
--   **POST** - [`/users/register`] - Crea un usuario.
--   **POST** - [`/users/login`] - Logea a un usuario retornando un token.
--   **GET** - [`/users`] - Retorna información del usuario del token. ➡️ `Token`
+-   **POST** - [`/users/register`] - Crea un usuario. ➡️ (name, email, password) ✔️
+-   **POST** - [`/users/login`] - Logea a un usuario retornando un token. ➡️ (email, plainpassword) ✔️
+-   **GET** - [`/users`] - Retorna información del usuario del token. ➡️ `Token`✔️
 
 ## Endpoints de los post
 
--   **POST** - [`/posts`] - Crea nuevo post. ➡️ `Token`
--   **GET** - [`/posts`] - Retorna el listado de posts. Permite filtrar por lugar o categoría.
--   **GET** - [`/posts/:id`] - Retorna un post en concreto.
--   **POST** - [`/posts/:id/like`] - Permite dar o quitar me gusta a un post. ➡️ `Token`
+-   **POST** - [`/posts/crear`] - Crea nuevo post. ➡️ (title, description, category, place)`Token` ✔️
+-   **GET** - [`/posts`] - Retorna el listado de posts. Permite filtrar por lugar o categoría.➡️`Token` ✔️
+-   **GET** - [`/posts/:id`] - Retorna un post en concreto.➡️`Token` ✔️
+-   **POST** - [`/posts/:id/like`] - Permite dar o quitar me gusta a un post. ➡️ `Token` ✔️

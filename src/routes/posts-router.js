@@ -1,14 +1,20 @@
 const { Router, json } = require("express");
-const fileUpload = require("express-fileupload");
+const router = Router();
 
+// Importamos las funciones controladoras intermedias de la carpeta middlewares.
+const authGuard = require("../middlewares/auth-guard.js");
+
+// Importamos las funciones controladoras de los posts.
 const searchPosts = require("../use-cases/posts/search-posts.js");
 const viewPostDetail = require("../use-cases/posts/view-post-detail.js");
-const authGuard = require("../middlewares/auth-guard.js");
-const sendResponse = require("../utils/send-response.js");
 const createPost = require("../use-cases/posts/create-post.js");
 const toggleLike = require("../use-cases/posts/toggle-like.js");
 
-const router = Router();
+// Importamos las funciones necesarias de la carpeta utils.
+const sendResponse = require("../utils/send-response.js");
+
+//FIXME implementar
+//const fileUpload = require("express-fileupload");
 
 const handleAsyncError = (fn) => {
     return (req, res, next) => {
