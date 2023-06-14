@@ -44,13 +44,44 @@ module.exports = {
         return rows[0];
     },
 
+    //Guardar Post
+    async savePost(post) {
+        const statement = `
+        INSERT INTO posts(id,title,description,userId,place,category)
+        VALUES(?,?,?,?,?,?)
+        `;
+        await db.execute(statement, [
+            post.id,
+            post.title,
+            post.description,
+            post.userId,
+            post.place,
+            post.category,
+        ]);
+    },
+
+    // Obtener todos los posts
+    async getAllPosts() {
+        const statement = `SELECT * FROM posts ORDER BY createdAt DESC`;
+        const [rows] = await db.execute(statement);
+        return rows;
+    },
+
+    // datalle de un post
+    async getPostById(id) {
+        const statement = `SELECT * FROM posts WHERE id = ? ORDER BY createdAt DESC`;
+        const [rows] = await db.execute(statement, [id]);
+        return rows;
+    },
+
     // Cambiar tittle y descripcion al nombre correspondeinte de nuestra base de datos
     async searchByTerm(searchTerm) {
         const likeTerm = `%${searchTerm}%`;
         const statement = `
       SELECT * FROM posts
       WHERE 
-        lugar LIKE ?     
+        place LIKE ?   
+        ORDER BY createdAt DESC  
     `;
         const [rows] = await db.execute(statement, [likeTerm]);
         return rows;
@@ -63,7 +94,8 @@ module.exports = {
         const statement = `
     SELECT * FROM posts
     WHERE 
-      categoria LIKE ?     
+      category LIKE ?  
+      ORDER BY createdAt DESC   
   `;
         const [rows] = await db.execute(statement, [likeCategory]);
         return rows;
@@ -75,12 +107,46 @@ module.exports = {
         const likeCategory = `%${category}%`;
         const likeTerm = `%${searchTerm}%`;
         const statement = `
-    SELECT * FROM posts
-    WHERE 
-      categoria LIKE ?     
-      AND lugar LIKE ?
+    SELECT * 
+    FROM posts
+    WHERE category LIKE ? AND place LIKE ?
+    ORDER BY createdAt DESC
   `;
         const [rows] = await db.execute(statement, [likeCategory, likeTerm]);
         return rows;
+    },
+
+    async createLike(like) {
+        const statement = `
+        INSERT INTO post_likes(id,userId,postId)
+        VALUES(?,?,?)
+        `;
+        await db.execute(statement, [like.id, like.userId, like.postId]);
+    },
+
+    async likeExists(postId, userId) {
+        const statement = `
+        SELECT * FROM post_likes
+        WHERE postId = ? and userId = ?
+        `;
+        const [rows] = await db.execute(statement, [postId, userId]);
+        return !!rows[0];
+    },
+
+    async deleteLikeByUserId(postId, userId) {
+        const statement = `
+        DELETE FROM post_likes
+        WHERE postId = ? and userId = ?
+        `;
+        await db.execute(statement, [postId, userId]);
+    },
+
+    async countLikesByPostId(postId) {
+        const statement = `
+        SELECT COUNT(*) as likes FROM post_likes
+        WHERE postId = ?
+        `;
+        const [rows] = await db.execute(statement, [postId]);
+        return rows[0].likes;
     },
 };

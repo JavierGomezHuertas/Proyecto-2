@@ -43,8 +43,8 @@ async function createDatabaseTables(pool) {
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             place VARCHAR (50) NOT NULL,
             photo VARCHAR (100),
-            lead VARCHAR (100),
-            category ENUM ("rural","gastronomico", "naturaleza") NOT NULL,  
+            subget VARCHAR (100),
+            category ENUM ("rural", "gastronomico", "naturaleza") NOT NULL,  
             FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
         )
     `);
@@ -70,7 +70,7 @@ async function generateFakeData(pool) {
         INSERT INTO users(id,name,email,password)
         VALUES(?,?,?,?)
       `,
-            [user.id, user.name, user.email, user.password]
+            [user.id, user.name, user.email, user.password].filter((param) => param !== undefined)
         );
     }
 
@@ -87,7 +87,7 @@ async function generateFakeData(pool) {
                 post.place,
                 post.category,
                 post.userId,
-            ]
+            ].filter((param) => param !== undefined)
         );
 
         const likes = generateLikes(post, users);
@@ -98,7 +98,7 @@ async function generateFakeData(pool) {
             INSERT INTO post_likes(id,userId,postId)
             VALUES(?,?,?)
           `,
-                [like.id, like.userId, like.postId]
+                [like.id, like.userId, like.postId].filter((param) => param !== undefined)
             );
         }
     }
@@ -135,7 +135,7 @@ async function generateUsersAndPosts() {
             const post = {
                 id: cryptoService.generateUUID(),
                 title: faker.lorem.sentence(),
-                descripcion: faker.lorem.paragraphs(),
+                description: faker.lorem.paragraphs(),
                 userId: user.id,
                 place: "Madrid",
                 category: categories[numCategory],

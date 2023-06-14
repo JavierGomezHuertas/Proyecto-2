@@ -1,17 +1,15 @@
+const errorService = require("../../services/error-service.js");
+
 const {
-  getPostById,
-  getCommentsByPostId,
-  countLikesByPostId,
-  getPhotosByPostId,
+    getPostById,
+    countLikesByPostId,
 } = require("../../services/db-service.js");
 
 module.exports = async (postId) => {
-  const post = await getPostById(postId);
-  if (!post) {
-    errorService.notFound();
-  }
-  post.comments = await getCommentsByPostId(postId);
-  post.photos = await getPhotosByPostId(postId);
-  post.likes = await countLikesByPostId(postId);
-  return post;
+    const post = await getPostById(postId);
+    if (post.length === 0) {
+        errorService.notFound();
+    }
+    post[0].likes = await countLikesByPostId(postId);
+    return post;
 };

@@ -1,4 +1,5 @@
 # Viajes recomendados
+
 ​
 Aplicación que permite gestionar un portal donde los usuarios puedan publicar recomendaciones de viajes o experiencias poco conocidas.
 
@@ -34,5 +35,4 @@ Aplicación que permite gestionar un portal donde los usuarios puedan publicar r
 -   **POST** - [`/posts`] - Crea nuevo post. ➡️ `Token`
 -   **GET** - [`/posts`] - Retorna el listado de posts. Permite filtrar por lugar o categoría.
 -   **GET** - [`/posts/:id`] - Retorna un post en concreto.
--   **POST** - [`/posts/:id/like`] - Permite dar me gusta a un post. ➡️ `Token`
--   **DELETE** - [`/posts/:id/like`] - Elimina un me gusta de un post. ➡️ `Token`
+-   **POST** - [`/posts/:id/like`] - Permite dar o quitar me gusta a un post. ➡️ `Token`
