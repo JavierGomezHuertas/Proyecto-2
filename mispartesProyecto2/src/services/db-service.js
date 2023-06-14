@@ -12,7 +12,7 @@ module.exports = {
     const statement = `
       SELECT * FROM posts
       WHERE 
-        lugar LIKE ?     
+        place LIKE ?     
     `;
     const [rows] = await db.execute(statement, [likeTerm]);
     return rows;
@@ -27,7 +27,7 @@ async searchByCategory(category) {
   const statement = `
     SELECT * FROM posts
     WHERE 
-      categoria LIKE ?     
+      category LIKE ?     
   `;
   const [rows] = await db.execute(statement, [likeCategory]);
   return rows;
@@ -43,8 +43,8 @@ async searchByCategoryAndTerm(category, searchTerm) {
   const statement = `
     SELECT * FROM posts
     WHERE 
-      categoria LIKE ?     
-      AND lugar LIKE ?
+      category LIKE ?     
+      AND place LIKE ?
   `;
   const [rows] = await db.execute(statement, [likeCategory, likeTerm]);
   return rows;

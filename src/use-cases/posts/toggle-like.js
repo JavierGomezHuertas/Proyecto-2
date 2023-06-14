@@ -1,25 +1,25 @@
 const { generateUUID } = require("../../services/crypto-service.js");
 const {
-  getPostById,
-  likeExists,
-  deleteLikeByUserId,
-  createLike,
+    getPostById,
+    likeExists,
+    deleteLikeByUserId,
+    createLike,
 } = require("../../services/db-service.js");
 const errorService = require("../../services/error-service.js");
 
 module.exports = async (postId, userId) => {
-  const post = await getPostById(postId);
-  if (!post) {
-    errorService.notFound();
-  }
+    const post = await getPostById(postId);
+    if (post.length === 0) {
+        errorService.notFound();
+    }
 
-  if (await likeExists(postId, userId)) {
-    await deleteLikeByUserId(postId, userId);
-  } else {
-    await createLike({
-      id: generateUUID(),
-      postId,
-      userId,
-    });
-  }
+    if (await likeExists(postId, userId)) {
+        await deleteLikeByUserId(postId, userId);
+    } else {
+        await createLike({
+            id: generateUUID(),
+            postId,
+            userId,
+        });
+    }
 };
